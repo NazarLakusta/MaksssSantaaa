@@ -1,0 +1,693 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #E50914;
+    --background-dark: #0a0a0a;
+    --background-card: #1a1a1a;
+    --background-elevated: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-tertiary: #808080;
+    --border-color: #333333;
+    --overlay-dark: rgba(0, 0, 0, 0.7);
+    --overlay-gradient: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+.movie-container {
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: var(--background-dark);
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Header Styles */
+.movie-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.back-button,
+.share-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.back-button:hover,
+.share-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.back-button:active,
+.share-button:active {
+    transform: scale(0.95);
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+    overflow: hidden;
+    margin-top: 0;
+    background-color: #000;
+}
+
+/* Video Container */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+.movie-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Video Overlay with Centered Play Button */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+}
+
+.video-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.center-play-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(229, 9, 20, 0.9);
+    border: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.center-play-button:hover {
+    background: rgba(229, 9, 20, 1);
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(229, 9, 20, 0.6);
+}
+
+.center-play-button:active {
+    transform: scale(0.95);
+}
+
+.center-play-button svg {
+    width: 40px;
+    height: 40px;
+}
+
+/* Video Controls */
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
+    padding: 16px;
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+}
+
+.video-controls.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.controls-top {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 12px;
+}
+
+.controls-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.progress-container {
+    width: 100%;
+}
+
+.progress-bar {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: height 0.2s ease;
+}
+
+.progress-bar:hover {
+    height: 6px;
+}
+
+.progress-filled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.progress-handle {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.progress-bar:hover .progress-handle,
+.progress-bar.dragging .progress-handle {
+    opacity: 1;
+}
+
+.controls-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.control-button {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+.control-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.control-button:active {
+    transform: scale(0.95);
+}
+
+.control-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+.time-display {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+.time-separator {
+    color: var(--text-secondary);
+}
+
+.current-time,
+.duration-time {
+    min-width: 40px;
+}
+
+/* Volume Control */
+.volume-button {
+    position: relative;
+}
+
+/* Fullscreen Styles */
+.video-container.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+}
+
+.video-container.fullscreen .movie-video {
+    object-fit: contain;
+}
+
+/* Hide controls when video is paused and overlay is visible */
+.video-container.paused .video-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.video-container.playing .video-overlay {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Movie Info Section */
+.movie-info {
+    position: relative;
+    z-index: 4;
+    background-color: var(--background-dark);
+    border-radius: 24px 24px 0 0;
+    margin-top: -24px;
+    padding: 24px 20px 40px;
+    min-height: calc(40vh + 24px);
+}
+
+.movie-title-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.movie-title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.movie-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.separator {
+    color: var(--text-tertiary);
+}
+
+/* Rating and Genre Section */
+.rating-genre-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.rating-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--background-elevated);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.rating-badge svg {
+    color: #FFD700;
+    width: 18px;
+    height: 18px;
+}
+
+.rating-value {
+    font-weight: 600;
+}
+
+.genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.genre-tag {
+    background-color: var(--background-card);
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    align-items: center;
+}
+
+.play-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--primary-color);
+    color: var(--text-primary);
+    border: none;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.play-button:hover {
+    background-color: #f40612;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+}
+
+.play-button:active {
+    transform: translateY(0);
+}
+
+.play-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-card);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+    background-color: var(--background-elevated);
+    border-color: var(--text-secondary);
+    transform: scale(1.05);
+}
+
+.icon-button:active {
+    transform: scale(0.95);
+}
+
+.icon-button svg {
+    width: 22px;
+    height: 22px;
+}
+
+.favorite-button.active svg {
+    fill: var(--primary-color);
+    stroke: var(--primary-color);
+}
+
+/* Synopsis Section */
+.synopsis-section {
+    margin-bottom: 32px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+}
+
+.synopsis-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* Cast Section */
+.cast-section {
+    margin-bottom: 32px;
+}
+
+.cast-list {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.cast-list::-webkit-scrollbar {
+    display: none;
+}
+
+.cast-item {
+    flex-shrink: 0;
+    text-align: center;
+    width: 70px;
+}
+
+.cast-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 8px;
+    border: 2px solid var(--border-color);
+    background-color: var(--background-card);
+}
+
+.cast-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cast-name {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* Similar Movies Section */
+.similar-section {
+    margin-bottom: 20px;
+}
+
+.similar-movies {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.similar-movies::-webkit-scrollbar {
+    display: none;
+}
+
+.similar-movie-card {
+    flex-shrink: 0;
+    width: 120px;
+}
+
+.similar-movie-card img {
+    width: 120px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background-color: var(--background-card);
+    display: block;
+}
+
+.similar-movie-title {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    line-height: 1.4;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 375px) {
+    .movie-title {
+        font-size: 24px;
+    }
+    
+    .center-play-button {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .center-play-button svg {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .movie-title-section {
+        padding-top: 120px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .play-button {
+        width: 100%;
+    }
+    
+    .icon-button {
+        width: 100%;
+    }
+    
+    .controls-row {
+        gap: 12px;
+    }
+    
+    .time-display {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 768px) {
+    .movie-container {
+        max-width: 480px;
+        margin: 0 auto;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Loading States */
+img {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Touch Feedback */
+button {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Accessibility */
+button:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Prevent text selection on UI elements */
+.movie-header,
+.action-buttons,
+.cast-list,
+.similar-movies {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+

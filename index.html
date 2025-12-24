@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Переглядач фільмів - Мобільний</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="movie-container">
+        <!-- Header with back button -->
+        <header class="movie-header">
+            <button class="back-button" aria-label="Назад">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button class="share-button" aria-label="Поділитися">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 5.59427 15.2019 6.14282 15.5351 6.58579L9.58579 10.4142C9.14282 10.0809 8.59427 9.879 8 9.879C6.34315 9.879 5 11.2221 5 12.879C5 14.5359 6.34315 15.879 8 15.879C8.59427 15.879 9.14282 15.6771 9.58579 15.3438L15.5351 19.1722C15.2019 19.6152 15 20.1637 15 20.758C15 22.4148 16.3431 23.758 18 23.758C19.6569 23.758 21 22.4148 21 20.758C21 19.1011 19.6569 17.758 18 17.758C17.4057 17.758 16.8572 17.9599 16.4142 18.2932L10.4649 14.4648C10.7981 14.0218 11 13.4733 11 12.879C11 12.2847 10.7981 11.7362 10.4649 11.2932L16.4142 7.46477C16.8572 7.7981 17.4057 8 18 8Z" fill="currentColor"/>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Hero Section with Video Player -->
+        <div class="hero-section">
+            <div class="video-container">
+                <video 
+                    id="movie-video" 
+                    class="movie-video" 
+                    poster="img/PosterFilm.png"
+                    preload="metadata">
+                    <source src="movies/Renderr.mp4" type="video/mp4">
+                    Ваш браузер не підтримує відео тег.
+                </video>
+                
+                <!-- Centered Play Button Overlay -->
+                <div class="video-overlay" id="video-overlay">
+                    <button class="center-play-button" id="center-play-button" aria-label="Відтворити відео">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 5V19L19 12L8 5Z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Video Controls -->
+                <div class="video-controls" id="video-controls">
+                    <div class="controls-top">
+                        <button class="control-button back-button-video" id="back-button-video" aria-label="Назад">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="controls-bottom">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress-bar">
+                                <div class="progress-filled" id="progress-filled"></div>
+                                <div class="progress-handle" id="progress-handle"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="controls-row">
+                            <button class="control-button play-pause-button" id="play-pause-button" aria-label="Відтворити/Пауза">
+                                <svg class="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 5V19L19 12L8 5Z"/>
+                                </svg>
+                                <svg class="pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                    <path d="M6 4H10V20H6V4ZM14 4H18V20H14V4Z"/>
+                                </svg>
+                            </button>
+                            
+                            <div class="time-display">
+                                <span class="current-time" id="current-time">0:00</span>
+                                <span class="time-separator">/</span>
+                                <span class="duration-time" id="duration-time">0:00</span>
+                            </div>
+                            
+                            <button class="control-button volume-button" id="volume-button" aria-label="Гучність">
+                                <svg class="volume-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                                </svg>
+                                <svg class="volume-muted-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                                    <line x1="23" y1="9" x2="17" y2="15"/>
+                                    <line x1="17" y1="9" x2="23" y2="15"/>
+                                </svg>
+                            </button>
+                            
+                            <button class="control-button fullscreen-button" id="fullscreen-button" aria-label="На весь екран">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Movie Info Section -->
+        <div class="movie-info">
+            <div class="movie-title-section">
+                <h1 class="movie-title">FROM CODE TO APEX</h1>
+                <div class="movie-meta">
+                    <span class="year">2025</span>
+                    <span class="separator">•</span>
+                    <span class="duration">4 min</span>
+                    <span class="separator">•</span>
+                    <span class="rating">PG-13</span>
+                </div>
+            </div>
+
+            <!-- Rating and Genre -->
+            <div class="rating-genre-section">
+                <div class="rating-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                    </svg>
+                    <span class="rating-value">9.0</span>
+                </div>
+                <div class="genres">
+                    <span class="genre-tag">Екшн</span>
+                    <span class="genre-tag">Кримінал</span>
+                    <span class="genre-tag">Драма</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="play-button" id="watch-now-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 5V19L19 12L8 5Z"/>
+                    </svg>
+                    <span>Дивитися зараз</span>
+                </button>
+                <button class="icon-button favorite-button" aria-label="Додати до обраного">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                    </svg>
+                </button>
+                <button class="icon-button download-button" aria-label="Завантажити">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Synopsis -->
+            <div class="synopsis-section">
+                <h2 class="section-title">Синопсис</h2>
+                <p class="synopsis-text">
+                    Він починав як програміст.
+Мрія привела його на трасу Формули 1.
+Це історія про вибір, швидкість і момент, який змінює життя назавжди.
+</p>
+            </div>
+
+            <!-- Cast Section -->
+            <div class="cast-section">
+                <h2 class="section-title">Актори</h2>
+                <div class="cast-list">
+                    <div class="cast-item">
+                        <div class="cast-avatar">
+                            <img src="https://via.placeholder.com/60x60/2a2a2a/ffffff?text=CH" alt="Christian Bale">
+                        </div>
+                        <p class="cast-name">Christian Bale</p>
+                    </div>
+                    <div class="cast-item">
+                        <div class="cast-avatar">
+                            <img src="https://via.placeholder.com/60x60/2a2a2a/ffffff?text=HJ" alt="Heath Ledger">
+                        </div>
+                        <p class="cast-name">Heath Ledger</p>
+                    </div>
+                    <div class="cast-item">
+                        <div class="cast-avatar">
+                            <img src="https://via.placeholder.com/60x60/2a2a2a/ffffff?text=AE" alt="Aaron Eckhart">
+                        </div>
+                        <p class="cast-name">Aaron Eckhart</p>
+                    </div>
+                    <div class="cast-item">
+                        <div class="cast-avatar">
+                            <img src="https://via.placeholder.com/60x60/2a2a2a/ffffff?text=MG" alt="Michael Caine">
+                        </div>
+                        <p class="cast-name">Michael Caine</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Similar Movies Section -->
+            <div class="similar-section">
+                <h2 class="section-title">Схожі фільми</h2>
+                <div class="similar-movies">
+                    <div class="similar-movie-card">
+                        <img src="img/IronMan_maks.png" alt="Similar Movie">
+                        <p class="similar-movie-title">Iron Maks 2</p>
+                    </div>
+                    <div class="similar-movie-card">
+                        <img src="img/GT_Maks.png" alt="Similar Movie">
+                        <p class="similar-movie-title">Game Of Sigma</p>
+                    </div>
+                    <div class="similar-movie-card">
+                        <img src="img/PeakyDz.png" alt="Similar Movie">
+                        <p class="similar-movie-title">Peaky DZ</p>
+                    </div>
+                    <div class="similar-movie-card">
+                        <img src="img/BB_Maks.png" alt="Similar Movie">
+                        <p class="similar-movie-title">Breaking Bad</p>
+                    </div>
+                    <div class="similar-movie-card">
+                        <img src="img/Offfline.png" alt="Similar Movie">
+                        <p class="similar-movie-title">Offline</p>
+                    </div>
+                    <div class="similar-movie-card">
+                        <img src="img/Full Throttle.png" alt="Similar Movie">
+                        <p class="similar-movie-title">Full Throttle</p>
+                    </div>
+
+                     <div class="similar-movie-card">
+                        <img src="img/BeyondWall.png" alt="Similar Movie">
+                        <p class="similar-movie-title">Beyond The Wall</p>
+                    </div>
+
+                    <div class="similar-movie-card">
+                        <img src="img/LockDown.png" alt="Similar Movie">
+                        <p class="similar-movie-title">Lockdown</p>
+                    </div>
+
+                    <div class="similar-movie-card">
+                        <img src="img/NoRetreat.png" alt="Similar Movie">
+                        <p class="similar-movie-title">No Retreat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
