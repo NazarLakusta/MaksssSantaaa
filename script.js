@@ -242,20 +242,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Fullscreen
-    fullscreenButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        if (!document.fullscreenElement) {
-            videoContainer.requestFullscreen().catch(err => {
-                console.log('Error attempting to enable fullscreen:', err);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-        if (navigator.vibrate) {
-            navigator.vibrate(50);
-        }
-    });
+fullscreenButton.addEventListener("click", async (e) => {
+    e.stopPropagation();
+
+    // iPhone / iPad
+    if (video.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen();
+        return;
+    }
+
+    // Вихід з fullscreen
+    if (document.fullscreenElement) {
+        await document.exitFullscreen();
+        return;
+    }
+
+    // Android / Desktop — краще просити fullscreen на відео
+    if (video.requestFullscreen) {
+        await video.requestFullscreen();
+    }
+
+    if (navigator.vibrate) navigator.vibrate(50);
+});
+
 
     // Handle fullscreen change
     document.addEventListener('fullscreenchange', function() {
@@ -449,4 +458,5 @@ document.addEventListener('DOMContentLoaded', function() {
         item.style.cursor = 'pointer';
     });
 });
+
 
